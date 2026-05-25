@@ -70,48 +70,50 @@ const Settings = () => {
               <button className="btn-add-field">Add Field</button>
             </div>
 
-            <div className="fields-table-container">
-              <table className="fields-table">
-                <thead>
-                  <tr>
-                    <th>Field ID</th>
-                    <th>Queues</th>
-                    <th>Label</th>
-                    <th>Field Type</th>
-                    <th>Data Type</th>
-                    <th>View Source</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {fieldData.map((row, idx) => (
-                    <tr key={idx}>
-                      <td className="td-id">{row.id}</td>
-                      <td>
-                        <div className="queue-circle">{row.queues}</div>
-                      </td>
-                      <td>
-                        {row.label}
-                        {row.labelCount && <span className="label-count-circle">{row.labelCount}</span>}
-                      </td>
-                      <td>
-                        <div className="cell-icon-text">
-                          {!row.isSection && <LuEllipsis className="icon-orange" />}
-                          <span>{row.fieldType} <span className="table-text-muted">({row.fieldTypeCount})</span></span>
-                        </div>
-                      </td>
-                      <td>
-                        {row.dataType && <span>{row.dataType} <span className="table-text-muted">({row.dataTypeCount})</span></span>}
-                      </td>
-                      <td>
-                        <div className="cell-icon-text">
-                          {row.viewSource === 'Captured' && <LuSquareCheck className="icon-orange" />}
-                          <span>{row.viewSource} <span className="table-text-muted">({row.viewSourceCount})</span></span>
-                        </div>
-                      </td>
+            <div style={{ background: 'var(--surface)', borderRadius: '12px', display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden', minHeight: 0 }}>
+              <div className="fields-table-container">
+                <table className="fields-table">
+                  <thead>
+                    <tr>
+                      <th>Field ID</th>
+                      <th>Queues</th>
+                      <th>Label</th>
+                      <th>Field Type</th>
+                      <th>Data Type</th>
+                      <th>View Source</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {fieldData.map((row, idx) => (
+                      <tr key={idx}>
+                        <td className="td-id">{row.id}</td>
+                        <td>
+                          <div className="queue-circle">{row.queues}</div>
+                        </td>
+                        <td>
+                          {row.label}
+                          {row.labelCount && <span className="label-count-circle">{row.labelCount}</span>}
+                        </td>
+                        <td>
+                          <div className="cell-icon-text">
+                            {!row.isSection && <LuEllipsis className="icon-orange" />}
+                            <span>{row.fieldType} <span className="table-text-muted">({row.fieldTypeCount})</span></span>
+                          </div>
+                        </td>
+                        <td>
+                          {row.dataType && <span>{row.dataType} <span className="table-text-muted">({row.dataTypeCount})</span></span>}
+                        </td>
+                        <td>
+                          <div className="cell-icon-text">
+                            {row.viewSource === 'Captured' && <LuSquareCheck className="icon-orange" />}
+                            <span>{row.viewSource} <span className="table-text-muted">({row.viewSourceCount})</span></span>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </>
         )}

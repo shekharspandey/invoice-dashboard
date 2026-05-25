@@ -10,6 +10,7 @@ import Extensions from "../pages/Extensions";
 import Automation from "../pages/Automation";
 import ForgotPassword from "../pages/ForgotPassword";
 import Layout from "../components/layout/Layout";
+import DocumentEditor from "../pages/DocumentEditor";
 
 const RootRedirect = () => {
   const token = localStorage.getItem("token");
@@ -47,6 +48,7 @@ const AppRoutes = () => {
           <Route path="statistics" element={<Statistics />} />
           <Route path="extensions" element={<Extensions />} />
           <Route path="automation" element={<Automation />} />
+          <Route path="document/:id" element={<DocumentEditor />} />
         </Route>
 
         {/* FALLBACK */}

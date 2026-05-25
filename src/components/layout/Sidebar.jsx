@@ -1,106 +1,131 @@
 import React, { useState } from "react";
-import { LuChevronDown, LuSearch, LuFileText } from "react-icons/lu";
+import { LuChevronDown, LuSearch, LuFileText, LuPlus, LuUserPlus } from "react-icons/lu";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const [openQueues, setOpenQueues] = useState(true);
-  const [openUsers, setOpenUsers] = useState(true);
-  const [selectedQueues, setSelectedQueues] = useState(["Credit Notes", "Debit Notes", "Delivery Notes", "Pro Forma Invoices"]);
-  const [selectedUsers, setSelectedUsers] = useState(["Giorgi Shartava", "Giorgi", "Joao Morais", "Test User"]);
 
   const queues = [
-    "Credit Notes", "Debit Notes", "Delivery Notes", "Pro Forma Invoices", 
-    "Purchase Orders", "Tax Invoices (EU)", "Tax Invoices (UK)", "Tax Invoices (US)"
+    { name: "Credit Notes", count: 1 },
+    { name: "Debit Notes", count: 2 },
+    { name: "Delivery Notes", count: 1 },
+    { name: "Pro Forma Invoices", count: 2 },
+    { name: "Purchase Orders", count: 5 },
+    { name: "Tax Invoices (EU)", count: 4 },
+    { name: "Tax Invoices (UK)", count: 3 },
+    { name: "Tax Invoices (US)", count: 5 }
   ];
-
-  const users = ["Giorgi Shartava", "Giorgi", "Joao Morais", "Test User"];
 
   return (
     <aside className="sidebar" id="sidebar">
-      <div className="sidebar-inner">
-        {/* QUEUES SECTION */}
-        <div className="sidebar-group">
-          <div className="group-header" onClick={() => setOpenQueues(!openQueues)}>
-            <span className="group-label">
-              <LuChevronDown className={`chevron-icon ${openQueues ? "open" : ""}`} /> 
-              Queues
-            </span>
-            <span className="select-all">Select all <span className="count">4/8</span></span>
+      <div className="sidebar-inner" style={{ padding: '20px 16px', display: 'flex', flexDirection: 'column', height: '100%' }}>
+        
+        {/* TOP TITLE ROW */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <h2 style={{ fontSize: '14px', fontWeight: '700', color: 'var(--text-primary)', margin: 0 }}>All Documents</h2>
+          <button style={{ 
+            background: 'rgba(204, 85, 0, 0.1)', 
+            border: '1px solid rgba(204, 85, 0, 0.2)', 
+            color: '#CC5500', 
+            borderRadius: '6px', 
+            padding: '4px 8px', 
+            fontSize: '11px', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '4px',
+            cursor: 'pointer',
+            fontWeight: '600'
+          }}>
+            <LuPlus size={12}/> Add
+          </button>
+        </div>
+
+        {/* SEARCH ROW */}
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            background: 'var(--surface2)', 
+            borderRadius: '6px', 
+            padding: '6px 12px', 
+            flex: 1,
+            border: '1px solid var(--border)'
+          }}>
+            <span style={{ fontSize: '12px', color: 'var(--text-secondary)', marginRight: '6px' }}>Sort</span>
+            <LuChevronDown size={14} style={{ color: 'var(--text-secondary)' }}/>
+            <div style={{ flex: 1 }}></div>
+            <LuSearch size={14} style={{ color: 'var(--text-secondary)' }}/>
           </div>
-          
+        </div>
+
+        {/* TREE VIEW */}
+        <div style={{ flex: 1, overflowY: 'auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '12px' }} onClick={() => setOpenQueues(!openQueues)}>
+            <LuFileText style={{ color: 'var(--text-secondary)' }} />
+            <span style={{ fontSize: '14px', fontWeight: '600', color: 'var(--text-primary)' }}>Suntec <span style={{color: '#CC5500'}}>[23]</span></span>
+            <div style={{ flex: 1 }}></div>
+            <LuChevronDown style={{ 
+              color: 'var(--text-secondary)', 
+              transform: openQueues ? 'rotate(180deg)' : 'rotate(0deg)', 
+              transition: 'transform 0.3s' 
+            }} />
+          </div>
+
           {openQueues && (
-            <div className="group-content">
-              <div className="search-mini">
-                <input type="text" placeholder="Search" />
-                <LuSearch />
-              </div>
-              <div className="tree-root">
-                <div className="tree-item parent has-icon">
-                  <div className="item-label-group">
-                    <LuFileText className="tree-icon" />
-                    <span>Suntec</span>
-                  </div>
-                  <input type="checkbox" checked readOnly />
+            <div style={{ position: 'relative', marginLeft: '9px', paddingLeft: '16px', borderLeft: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {queues.map(q => (
+                <div key={q.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 0', cursor: 'pointer', position: 'relative' }}>
+                  <div style={{ 
+                    position: 'absolute', 
+                    left: '-16px', 
+                    top: '50%', 
+                    width: '10px', 
+                    height: '1px', 
+                    background: 'var(--border)' 
+                  }}></div>
+                  <span style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: '500' }}>{q.name}</span>
+                  <span style={{ 
+                    background: '#CC5500', 
+                    color: '#fff', 
+                    borderRadius: '50%', 
+                    width: '18px', 
+                    height: '18px', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    fontSize: '10px', 
+                    fontWeight: 'bold' 
+                  }}>{q.count}</span>
                 </div>
-                <div className="tree-children">
-                  {queues.map(q => (
-                    <label key={q} className="tree-item">
-                      <span>{q}</span>
-                      <input 
-                        type="checkbox" 
-                        checked={selectedQueues.includes(q)} 
-                        onChange={() => {}}
-                      />
-                    </label>
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
           )}
         </div>
 
-        <div className="divider-line"></div>
-
-        {/* USERS SECTION */}
-        <div className="sidebar-group">
-          <div className="group-header" onClick={() => setOpenUsers(!openUsers)}>
-            <span className="group-label">
-              <LuChevronDown className={`chevron-icon ${openUsers ? "open" : ""}`} /> 
-              Users
-            </span>
-            <span className="select-all">Select all <span className="count">4/4</span></span>
-          </div>
-
-          {openUsers && (
-            <div className="group-content">
-              <div className="search-mini">
-                <input type="text" placeholder="Search" />
-                <LuSearch />
-              </div>
-              <div className="user-list">
-                {users.map(u => (
-                  <label key={u} className="tree-item">
-                    <span>{u}</span>
-                    <input 
-                      type="checkbox" 
-                      checked={selectedUsers.includes(u)} 
-                      onChange={() => {}}
-                    />
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
+        {/* BOTTOM BUTTON */}
+        <div style={{ marginTop: 'auto', paddingTop: '16px' }}>
+          <button style={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            background: 'transparent',
+            border: '1px solid var(--border)',
+            borderRadius: '8px',
+            padding: '10px',
+            color: 'var(--text-primary)',
+            fontSize: '13px',
+            cursor: 'pointer',
+            transition: 'all 0.2s'
+          }}
+          onMouseOver={e => e.currentTarget.style.borderColor = '#CC5500'}
+          onMouseOut={e => e.currentTarget.style.borderColor = 'var(--border)'}
+          >
+            <LuUserPlus size={16} /> Invite New Colleague
+          </button>
         </div>
 
-        <div className="divider-line"></div>
-
-        {/* FOOTER ITEM */}
-        <div className="sidebar-footer-item">
-          <label className="tree-item">
-            <span>Include Deleted Users</span>
-            <input type="checkbox" />
-          </label>
-        </div>
       </div>
     </aside>
   );
